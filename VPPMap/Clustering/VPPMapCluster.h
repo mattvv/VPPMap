@@ -31,7 +31,7 @@
 
 @interface VPPMapCluster : NSObject <VPPMapCustomAnnotation>
 
-@property (nonatomic, retain) NSMutableArray *annotations;
+@property (nonatomic, strong) NSMutableArray *annotations;
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 

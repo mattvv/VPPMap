@@ -15,21 +15,14 @@
 @synthesize window = _window;
 @synthesize navigationController;
 
-- (void)dealloc
-{
-    [_window release];
-    self.navigationController = nil;
-    [super dealloc];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
     UIViewController *root = [[MapExample alloc] initWithNibName:@"MapExample" bundle:nil];
-    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:root] autorelease];
-    [root release];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:root];
     [self.window addSubview:self.navigationController.view];
     [self.window makeKeyAndVisible];
     return YES;

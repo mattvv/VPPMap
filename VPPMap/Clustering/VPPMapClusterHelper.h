@@ -31,7 +31,7 @@
 
 @interface VPPMapClusterHelper : NSObject
 
-@property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic, strong) MKMapView *mapView;
 
 - (VPPMapClusterHelper *) initWithMapView:(MKMapView*)mapView;
 

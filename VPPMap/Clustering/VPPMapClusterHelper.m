@@ -44,10 +44,6 @@
     return self;
 }
 
-- (void) dealloc {
-    self.mapView = nil;
-    [super dealloc];
-}
 
 - (float) approxDistanceCoord1:(CLLocationCoordinate2D)coord1 coord2:(CLLocationCoordinate2D)coord2 {
     //now properly convert this mapPoint to CGPoint 
@@ -151,7 +147,6 @@
                 [cluster.annotations addObjectsFromArray:neighbours];
                 [cluster.annotations addObject:ann];
                 [finalAnns addObject:cluster];
-                [cluster release];
             }
             
             [restOfAnnotations removeObjectsInArray:processed];
@@ -162,7 +157,6 @@
             block(finalAnns);
         }];
     }];
-    [q release];
 }
 
 

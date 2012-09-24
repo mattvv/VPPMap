@@ -40,13 +40,11 @@
         place.coordinate = CLLocationCoordinate2DMake([self RandomFloatStart:41.0 end:44.0],[self RandomFloatStart:-9.0 end:-5.0]);
         [place setTitle:[NSString stringWithFormat:@"Place %d title",i]];
         [tempPlaces addObject:place];
-        [place release];
         
     }
     
     _mh.shouldClusterPins = YES;
     [_mh setMapAnnotations:tempPlaces];
-    [tempPlaces release];    
 }
 
 - (void) toggleCenterOnMe {
@@ -66,38 +64,34 @@
 	ann.pinAnnotationColor = MKPinAnnotationColorPurple;
 	ann.opensWhenShown = YES;
 	[arr addObject:ann];
-	[ann release];
 	ann = [[MapAnnotationExample alloc] init];
 	ann.coordinate = CLLocationCoordinate2DMake(43.3576393127441,-8.4019660949707);
 	ann.title = @"Tabacos";
     ann.image = [UIImage imageNamed:@"bikePin"];
 	[arr addObject:ann];
-	[ann release];
 	ann = [[MapAnnotationExample alloc] init];
 	ann.coordinate = CLLocationCoordinate2DMake(43.3529319763184,-8.4093017578125);
 	ann.title = @"Estación de Tren";
 	[arr addObject:ann];
-	[ann release];
 	
 	// sets up the map
-	_mh = [[VPPMapHelper VPPMapHelperForMapView:self.mapView 
+	_mh = [VPPMapHelper VPPMapHelperForMapView:self.mapView 
                              pinAnnotationColor:MKPinAnnotationColorGreen 
                           centersOnUserLocation:NO
                           showsDisclosureButton:YES 
-                                       delegate:self] retain];
+                                       delegate:self];
     self.mapView.showsUserLocation = YES;
 	_mh.userCanDropPin = YES;
 	_mh.allowMultipleUserPins = YES;
 	_mh.pinDroppedByUserClass = [MapAnnotationExample class];
 	[_mh setMapAnnotations:arr];
 	
-	[_mh release];
     
     
     [arr removeAllObjects];
     arr = [NSMutableArray array];
-    [arr addObject:[[[UIBarButtonItem alloc] initWithTitle:@"Tons of pins" style:UIBarButtonItemStyleBordered target:self action:@selector(tonsOfPins)] autorelease]];
-    [arr addObject:[[[UIBarButtonItem alloc] initWithTitle:@"Toggle Center on me" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleCenterOnMe)] autorelease]];    
+    [arr addObject:[[UIBarButtonItem alloc] initWithTitle:@"Tons of pins" style:UIBarButtonItemStyleBordered target:self action:@selector(tonsOfPins)]];
+    [arr addObject:[[UIBarButtonItem alloc] initWithTitle:@"Toggle Center on me" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleCenterOnMe)]];    
     self.navigationItem.rightBarButtonItems = arr;
 }
 
@@ -124,12 +118,6 @@
 }
 
 
-- (void)dealloc {
-    if (_mh != Nil) {
-        [_mh release];
-    }
-    [super dealloc];
-}
 
 
 #pragma mark -
@@ -138,7 +126,6 @@
 - (void) open:(id<MKAnnotation>)annotation {
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Annotation pressed" message:[NSString stringWithFormat:@"It says: %@",annotation.title] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [av show];
-    [av release];
 }
 
 - (BOOL) annotationDroppedByUserShouldOpen:(id<MKAnnotation>)annotation {

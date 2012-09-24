@@ -302,6 +302,7 @@
 		57DE4F6D14CDB9D100B2D86B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VPPMapExample/VPPMapExample-Prefix.pch";
 				INFOPLIST_FILE = "VPPMapExample/VPPMapExample-Info.plist";
@@ -314,6 +315,7 @@
 		57DE4F6E14CDB9D100B2D86B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VPPMapExample/VPPMapExample-Prefix.pch";
 				INFOPLIST_FILE = "VPPMapExample/VPPMapExample-Info.plist";

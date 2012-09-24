@@ -55,11 +55,6 @@
     return self;
 }
 
-- (void) dealloc {
-    if (_label != nil) {
-        [_label release];
-    }
-}
 
 - (void) setTitle:(NSString *)title {
     _label.text = title;

@@ -43,11 +43,6 @@
     return self;
 }
 
-- (void) dealloc {
-    self.annotations = nil;
-    
-    [super dealloc];
-}
 
 - (NSString *) title {
     return [NSString stringWithFormat:kAnnotationsNumber,[self.annotations count]];

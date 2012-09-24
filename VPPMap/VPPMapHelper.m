@@ -74,11 +74,11 @@
 	// green pins
 	mh.pinAnnotationColor = annotationColor;
 	// mapView referenced
-	mh->mapView = [mapView retain];
+	mh->mapView = mapView;
 	// VPPMapHelperDelegate
 	mh.delegate = delegate;
 	// MKMapViewDelegate
-	mapView.delegate = [mh retain];
+	mapView.delegate = mh;
     mh->_unfilteredPins = [[NSMutableArray alloc] init];
     mh->_currentZoom = -1;
     mh->userCanDropPin = NO;
@@ -88,7 +88,6 @@
 										  initWithTarget:mh action:@selector(handleLongPress:)];
 	lpgr.minimumPressDuration = kPressDuration;
 	[mh.mapView addGestureRecognizer:lpgr];
-	[lpgr release];
 	
     // listens to userLocation's changes
     [mh.mapView.userLocation addObserver:mh
@@ -96,26 +95,11 @@
                                  options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)  
                                  context:NULL];
 	
-	return [mh autorelease];
+	return mh;
 }
 
 
 
-- (void)dealloc {
-    if (_userPins != nil) {
-        [_userPins release];
-    }
-    if (mapView != nil) {
-        [mapView release];
-        mapView = nil;
-    }
-	self.delegate = nil;
-    if (_unfilteredPins != nil) {
-        [_unfilteredPins release];
-    }
-	
-	[super dealloc];
-}
 
 
 #pragma mark - Help stuff
@@ -166,7 +150,6 @@
 		[self performSelector:@selector(openAnnotation:) withObject:pinDroppedByUser afterDelay:kVPPMapHelperOpenAnnotationDelay];
 	}
 	[_userPins addObject:pinDroppedByUser];
-	[pinDroppedByUser release];
 }
 
 
@@ -213,8 +196,8 @@
                                         reuseIdentifier:(NSString*)identifier 
                                              forMapView:(MKMapView*)theMapView {
     
-    MKAnnotationView *customImageView = [[[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                                      reuseIdentifier:identifier] autorelease];
+    MKAnnotationView *customImageView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                                      reuseIdentifier:identifier];
     
     
     customImageView.image = [self resizeImageForAnnotation:annotation.image];
@@ -247,8 +230,8 @@
                                            reuseIdentifier:(NSString*)identifier 
                                                 forMapView:(MKMapView*)theMapView {
     
-    MKPinAnnotationView *customPinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation
-                                                                          reuseIdentifier:identifier] autorelease];
+    MKPinAnnotationView *customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
+                                                                          reuseIdentifier:identifier];
     
     
     if ([annotation conformsToProtocol:@protocol(VPPMapCustomAnnotation)]) {
@@ -311,7 +294,7 @@
         VPPMapClusterView *clusterView = (VPPMapClusterView *)[theMapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
         
         if (!clusterView) {
-            clusterView = [[[VPPMapClusterView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"] autorelease];            
+            clusterView = [[VPPMapClusterView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];            
         }
         
         clusterView.title = [NSString stringWithFormat:@"%d",[[(VPPMapCluster*)annotation annotations] count]];
@@ -411,8 +394,6 @@
     CLLocation *min = [[CLLocation alloc] initWithLatitude:minLatitude longitude:minLongitude];
     CLLocation *max = [[CLLocation alloc] initWithLatitude:maxLatitude longitude:maxLongitude];
     CLLocationDistance dist = [max distanceFromLocation:min];
-    [max release];
-    [min release];
     
     region.center.latitude = (minLatitude + maxLatitude) / 2.0;
     region.center.longitude = (minLongitude	+ maxLongitude) / 2.0;
@@ -489,7 +470,6 @@
 - (void) mapView:(MKMapView *)mmapView didAddAnnotationViews:(NSArray *)views {
     if (_pinsToRemove != nil) {
         [mmapView removeAnnotations:_pinsToRemove];
-        [_pinsToRemove release];
         _pinsToRemove = nil;
     }
 }
@@ -507,14 +487,10 @@
     if (self.shouldClusterPins && [_unfilteredPins count] != 0 && [self mapViewDidZoom:mmapView]) {
         VPPMapClusterHelper *mh = [[VPPMapClusterHelper alloc] initWithMapView:self.mapView];
         [mh clustersForAnnotations:_unfilteredPins distance:self.distanceBetweenPins completion:^(NSArray *data) {
-            if (_pinsToRemove != nil) {
-                [_pinsToRemove release];
-            }
             _pinsToRemove = [[NSMutableArray alloc] initWithArray:self.mapView.annotations];
             [_pinsToRemove removeObjectsInArray:data];
             [self.mapView addAnnotations:data];
         }];
-        [mh release];
     }
 }
 
@@ -546,7 +522,6 @@
             [_unfilteredPins addObjectsFromArray:mapAnnotations];            
             [self.mapView addAnnotations:data];
         }];
-        [mh release];
     }
     
     else {

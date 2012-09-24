@@ -96,14 +96,14 @@
  @name Accesing the map view
  */
 /// Holds reference to the managed map view
-@property (nonatomic, readonly) MKMapView *mapView;
+@property (unsafe_unretained, nonatomic, readonly) MKMapView *mapView;
 
 /** ---
  @name Accesing the delegate 
 */
 
 /// Holds reference to VPPMapHelperDelegate
-@property (nonatomic, retain) id<VPPMapHelperDelegate> delegate;
+@property (nonatomic, strong) id<VPPMapHelperDelegate> delegate;
 
 
 
@@ -121,7 +121,7 @@
 
 /** Holds reference to the pin's class that will be used when user longpresses. 
  It must implement MKAnnotation protocol */
-@property (nonatomic, assign) Class pinDroppedByUserClass;
+@property (nonatomic, unsafe_unretained) Class pinDroppedByUserClass;
 
 /** Indicates if pins should be grouped in clusters. 
  
